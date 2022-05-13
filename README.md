@@ -9,8 +9,10 @@ This project was written after I played with a few vulnurable drivers and was hi
 
 Treat this project as a rewritten and combined version of those two.
 
-# How to use
+There are 2 vulnurable drivers that you can use this library with but it should be easy to extend to use with any vulnurable driver. The corresponding code is in `example/src/llaccess.hpp` for `CorsairLLAccess64.sys` and `example/src/speedfan.hpp` for `Speedfan.sys`.
+The example project shows every part of this library and uses speedfan driver to spawn shell with system privileges.
 
+# How to use
 cmkr example:
 ```
 [fetch-content.vdk]
@@ -29,7 +31,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE vdk)
 ```
 
 # Examples
-
 Please refer to example folder for more examples.
 
 Execute callback in kernel space by abusing abritrary msr write vulnurability:
@@ -62,7 +63,7 @@ fassert(NT_SUCCESS(status));
 
 Iterate over physical regions:
 ```cpp
-for (const auto& region : phy::regions())
+for (const auto& region : vdk::phy::regions())
 {
 	std::printf("Region: 0x%llx - 0x%llx\n", region.start, region.start + region.size);
 }
@@ -71,13 +72,13 @@ for (const auto& region : phy::regions())
 Resolve exported function from pe module:
 ```cpp
 std::vector<uint8_t> raw;
-drv::read_file("C:\\Windows\\System32\\ntoskrnl.exe", raw);
-auto rva = pe::get_export_rva(raw.data(), "RtlFindExportedRoutineByName");
+vdk::drv::read_file("C:\\Windows\\System32\\ntoskrnl.exe", raw);
+auto rva = vdk::pe::get_export_rva(raw.data(), "RtlFindExportedRoutineByName");
 ```
 
 Retrieve loaded modules list:
 ```cpp
-for (const auto& module : drv::loaded())
+for (const auto& module : vdk::drv::loaded())
 {
 	std::printf("0x%llx - 0x%llx %s\n", module.base, module.base + module.size, module.name.c_str());
 }
@@ -86,14 +87,12 @@ for (const auto& module : drv::loaded())
 Scan memory region for patterns (`0x00` - any character):
 ```cpp
 std::vector<uint8_t> buf{ 0x69, 0x69, 0x69, 0x10 };
-auto ptr = mem::find_first(buff.data(), buf.size(), "\x69\x69\x69\x00", 4);
+auto ptr = vdk::mem::find_first(buff.data(), buf.size(), "\x69\x69\x69\x00", 4);
 fassert(ptr);
 ```
 
 # Notes
 The msr exploitation is highly unstable and should be used as a last resort. There is a high chance that the thread will switch to another core where `cr4.smap` isn't disabled. If you really want to use msr exploit, replace cr4 value that is specific to your PC in `lib/vdk/msr.cpp` (I didn't bother getting cr4 value dynamically but might do it later).
-
-It is adviced to use safe physical memory exploit.
 
 # build
 ```

@@ -1,6 +1,6 @@
 root = true
 # C++
-[*.{h,hpp,c,cpp,asm}]
+[*.{h,hpp,c,cpp,asm,md}]
 end_of_line              = lf
 insert_final_newline     = true
 indent_style             = space
