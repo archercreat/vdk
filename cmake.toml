@@ -1,0 +1,29 @@
+[project]
+name        = "vdk"
+languages   = ["CXX", "ASM_MASM"]
+description = "vdk - vulnurable driver kit"
+
+[options]
+VDK_BUILD_EXAMPLE = false
+
+[target.ntdll]
+type = "interface"
+include-directories = ["lib/ntdll"]
+link-directories    = ["lib/ntdll"]
+x32.link-libraries  = ["ntdll_x86"]
+x64.link-libraries  = ["ntdll_x64"]
+
+[target.vdk]
+type                = "static"
+condition           = "windows"
+sources             = ["lib/vdk/**.cpp", "lib/vdk/**.hpp", "lib/vdk/**.asm"]
+compile-features    = ["cxx_std_20"]
+compile-options     = ["/MT", "/GS-"]
+link-libraries      = ["ntdll"]
+include-directories = ["lib/ntdll", "lib/"]
+
+cmake-after = """
+if (VDK_BUILD_EXAMPLE)
+    add_subdirectory(example)
+endif()
+"""

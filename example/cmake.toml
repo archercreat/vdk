@@ -1,0 +1,12 @@
+[project]
+name        = "poc"
+languages   = ["CXX"]
+
+[target.example]
+type                = "executable"
+condition           = "windows"
+sources             = ["src/**.cpp", "src/**.hpp"]
+compile-features    = ["cxx_std_20"]
+link-options        = ["/INCREMENTAL:NO"]
+link-libraries      = ["vdk"]
+include-before      = ["msvc-static-runtime.cmake"]
