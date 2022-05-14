@@ -1,7 +1,7 @@
 [project]
 name        = "vdk"
 languages   = ["CXX", "ASM_MASM"]
-description = "vdk - vulnurable driver kit"
+description = "vdk - vulnerable driver kit"
 
 [options]
 VDK_BUILD_EXAMPLE = false
