@@ -1,15 +1,15 @@
-# vdk - vulnurable driver kit
+# vdk - vulnerable driver kit
 
-*vdk* is a set of utilities used to help with exploitation of a vulnurable driver.
+*vdk* is a set of utilities used to help with exploitation of a vulnerable driver.
 There are 2 main features of this library:
-1. Getting kernel code execution via arbitrary msr write vulnurability
-2. Getting kernel code execution via arbitrary physical memory read/write vulnurability
+1. Getting kernel code execution via arbitrary msr write vulnerability
+2. Getting kernel code execution via arbitrary physical memory read/write vulnerability
 
-This project was written after I played with a few vulnurable drivers and was highly inspired by [msrexec](https://back.engineering/22/03/2021/) and [vdm](https://back.engineering/01/11/2020/) projects. I suggest you to read them first to understand what's going on.
+This project was written after I played with a few vulnerable drivers and was highly inspired by [msrexec](https://back.engineering/22/03/2021/) and [vdm](https://back.engineering/01/11/2020/) projects. I suggest you to read them first to understand what's going on.
 
 Treat this project as a rewritten and combined version of those two.
 
-There are 2 vulnurable drivers that you can use this library with but it should be easy to extend to use with any vulnurable driver. The corresponding code is in `example/src/llaccess.hpp` for `CorsairLLAccess64.sys` and `example/src/speedfan.hpp` for `Speedfan.sys`.
+There are 2 vulnerable drivers that you can use this library with but it should be easy to extend to use with any vulnerable driver. The corresponding code is in `example/src/llaccess.hpp` for `CorsairLLAccess64.sys` and `example/src/speedfan.hpp` for `Speedfan.sys`.
 The example project shows every part of this library and uses speedfan driver to spawn shell with system privileges.
 
 # How to use
@@ -33,7 +33,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE vdk)
 # Examples
 Please refer to example folder for more examples.
 
-Execute callback in kernel space by abusing abritrary msr write vulnurability:
+Execute callback in kernel space by abusing abritrary msr write vulnerability:
 ```cpp
 using dbgprint_t = void(*)(const char*, ...);
 
