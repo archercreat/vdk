@@ -27,7 +27,7 @@ if(CMKR_ROOT_PROJECT)
 	configure_file(cmake.toml cmake.toml COPYONLY)
 endif()
 
-project(poc
+project(example
 	LANGUAGES
 		CXX
 )

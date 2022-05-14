@@ -35,7 +35,7 @@ project(vdk
 		CXX
 		ASM_MASM
 	DESCRIPTION
-		"vdk - vulnurable driver kit"
+		"vdk - vulnerable driver kit"
 )
 
 # Target ntdll

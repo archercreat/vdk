@@ -1,5 +1,5 @@
 [project]
-name        = "poc"
+name        = "example"
 languages   = ["CXX"]
 
 [target.example]
