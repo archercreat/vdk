@@ -20,6 +20,7 @@ sources             = ["lib/vdk/**.cpp", "lib/vdk/**.hpp", "lib/vdk/**.asm"]
 compile-features    = ["cxx_std_20"]
 compile-options     = ["/MT", "/GS-"]
 link-libraries      = ["ntdll"]
+link-options        = ["/INCREMENTAL:NO"]
 include-directories = ["lib/ntdll", "lib/"]
 
 cmake-after = """

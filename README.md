@@ -91,6 +91,13 @@ auto ptr = vdk::mem::find_first(buff.data(), buf.size(), "\x69\x69\x69\x00", 4);
 fassert(ptr);
 ```
 
+Load or unload drivers (service name will be the name of the file):
+```cpp
+auto path = std::filesystem::current_path().append("SpeedFan");
+vdk::drv::load(path);
+vdk::drv::unload(path);
+```
+
 # Notes
 The msr exploitation is highly unstable and should be used as a last resort. There is a high chance that the thread will switch to another core where `cr4.smap` isn't disabled. If you really want to use msr exploit, build project in `Release` mode and replace cr4 value that is specific to your PC in `lib/vdk/msr.cpp` (I didn't bother getting cr4 value dynamically but might do it later).
 

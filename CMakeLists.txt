@@ -127,6 +127,10 @@ if(WIN32) # windows
 		ntdll
 	)
 
+	target_link_options(vdk PUBLIC
+		"/INCREMENTAL:NO"
+	)
+
 	if (VDK_BUILD_EXAMPLE)
 	    add_subdirectory(example)
 	endif()
