@@ -13,7 +13,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 	set(CMKR_ROOT_PROJECT ON)
 
 	# Bootstrap cmkr
-	include(cmkr.cmake OPTIONAL RESULT_VARIABLE CMKR_INCLUDE_RESULT)
+	include("cmake/cmkr.cmake" OPTIONAL RESULT_VARIABLE CMKR_INCLUDE_RESULT)
 	if(CMKR_INCLUDE_RESULT)
 		cmkr()
 	endif()
@@ -131,9 +131,54 @@ if(WIN32) # windows
 		"/INCREMENTAL:NO"
 	)
 
-	if (VDK_BUILD_EXAMPLE)
-	    add_subdirectory(example)
+	unset(CMKR_TARGET)
+	unset(CMKR_SOURCES)
+endif()
+
+# Target example
+if(VDK_BUILD_EXAMPLE) # build-example
+	set(CMKR_TARGET example)
+	include("cmake/msvc-static-runtime.cmake")
+
+	set(example_SOURCES "")
+
+	list(APPEND example_SOURCES
+		"example/llaccess.cpp"
+		"example/main.cpp"
+		"example/speedfan.cpp"
+		"example/llaccess.hpp"
+		"example/speedfan.hpp"
+	)
+
+	list(APPEND example_SOURCES
+		cmake.toml
+	)
+
+	set(CMKR_SOURCES ${example_SOURCES})
+	add_executable(example)
+
+	if(example_SOURCES)
+		target_sources(example PRIVATE ${example_SOURCES})
 	endif()
+
+	get_directory_property(CMKR_VS_STARTUP_PROJECT DIRECTORY ${PROJECT_SOURCE_DIR} DEFINITION VS_STARTUP_PROJECT)
+	if(NOT CMKR_VS_STARTUP_PROJECT)
+		set_property(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT example)
+	endif()
+
+	source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${example_SOURCES})
+
+	target_compile_features(example PRIVATE
+		cxx_std_20
+	)
+
+	target_link_libraries(example PRIVATE
+		vdk
+	)
+
+	target_link_options(example PRIVATE
+		"/INCREMENTAL:NO"
+	)
 
 	unset(CMKR_TARGET)
 	unset(CMKR_SOURCES)

@@ -1,3 +1,7 @@
+[cmake]
+version = "3.15"
+cmkr-include = "cmake/cmkr.cmake"
+
 [project]
 name        = "vdk"
 languages   = ["CXX", "ASM_MASM"]
@@ -5,6 +9,9 @@ description = "vdk - vulnerable driver kit"
 
 [options]
 VDK_BUILD_EXAMPLE = false
+
+[conditions]
+build-example = "VDK_BUILD_EXAMPLE"
 
 [target.ntdll]
 type = "interface"
@@ -23,8 +30,11 @@ link-libraries      = ["ntdll"]
 link-options        = ["/INCREMENTAL:NO"]
 include-directories = ["lib/ntdll", "lib/"]
 
-cmake-after = """
-if (VDK_BUILD_EXAMPLE)
-    add_subdirectory(example)
-endif()
-"""
+[target.example]
+condition           = "build-example"
+type                = "executable"
+sources             = ["example/**.cpp", "example/**.hpp"]
+compile-features    = ["cxx_std_20"]
+link-options        = ["/INCREMENTAL:NO"]
+link-libraries      = ["vdk"]
+include-before      = ["cmake/msvc-static-runtime.cmake"]
