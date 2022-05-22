@@ -7,7 +7,7 @@ There are 2 main features of this library:
 
 This project was written after I played with a few vulnerable drivers and was highly inspired by [msrexec](https://back.engineering/22/03/2021/) and [vdm](https://back.engineering/01/11/2020/) projects. I suggest you to read them first to understand what's going on.
 
-Treat this project as a rewritten and combined version of those two.
+Treat this project as a rewritten and improved version of those two.
 
 There are 2 vulnerable drivers that you can use this library with but it should be easy to extend to use with any vulnerable driver. The corresponding code is in `example/src/llaccess.hpp` for `CorsairLLAccess64.sys` and `example/src/speedfan.hpp` for `Speedfan.sys`.
 The example project shows every part of this library and uses speedfan driver to spawn shell with system privileges.
@@ -109,3 +109,7 @@ cmake --build build --config Release
 
 # Credits
 All credits go to `_xeroxz` and his `msrexec` and `vdm` projects.
+
+# TODO
+HVCI support
+Kernel CFG support
